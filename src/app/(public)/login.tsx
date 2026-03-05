@@ -29,7 +29,12 @@ export default function Login() {
         </View>
 
         <View style={styles.formContainer}>
-          <TextInput placeholder="Digite seu nome" />
+          <TextInput
+            style={styles.input}
+            placeholder="Digite seu nome"
+            autoCapitalize="words"
+            returnKeyType="done"
+          />
 
           <View style={styles.buttonGlow}>
             <LinearGradient
@@ -82,6 +87,17 @@ const styles = StyleSheet.create({
     width: "100%",
     gap: 16,
   },
+  input: {
+    width: "100%",
+    paddingVertical: 16,
+    paddingHorizontal: 24,
+    fontSize: 16,
+    color: colors.grayscale.white,
+    backgroundColor: colors.grayscale.gray500,
+    borderWidth: 1,
+    borderColor: colors.grayscale.gray400,
+    borderRadius: 50,
+  },
   // Estilo para o efeito de glow do botão (somente para iOS, pois Android não suporta sombras)
   buttonGlow: {
     shadowColor: colors.accent.purple,
@@ -94,8 +110,7 @@ const styles = StyleSheet.create({
     borderRadius: 50,
   },
   button: {
-    height: 48,
-    paddingVertical: 12,
+    paddingVertical: 16,
     paddingHorizontal: 24,
     alignItems: "center",
     justifyContent: "center",
