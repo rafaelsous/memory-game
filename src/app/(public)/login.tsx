@@ -1,3 +1,4 @@
+import { LinearGradient } from "expo-linear-gradient";
 import {
   Image,
   StyleSheet,
@@ -8,7 +9,7 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-import { colors } from "@/constants/colors";
+import { colors, gradients } from "@/constants/colors";
 
 export default function Login() {
   return (
@@ -30,9 +31,18 @@ export default function Login() {
         <View style={styles.formContainer}>
           <TextInput placeholder="Digite seu nome" />
 
-          <TouchableOpacity activeOpacity={0.7}>
-            <Text style={styles.buttonText}>Entrar</Text>
-          </TouchableOpacity>
+          <View style={styles.buttonGlow}>
+            <LinearGradient
+              colors={gradients.colorful}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 2 }}
+              style={styles.buttonGradient}
+            >
+              <TouchableOpacity style={styles.button} activeOpacity={0.7}>
+                <Text style={styles.buttonText}>Entrar</Text>
+              </TouchableOpacity>
+            </LinearGradient>
+          </View>
         </View>
       </View>
     </SafeAreaView>
@@ -71,6 +81,24 @@ const styles = StyleSheet.create({
   formContainer: {
     width: "100%",
     gap: 16,
+  },
+  // Estilo para o efeito de glow do botão (somente para iOS, pois Android não suporta sombras)
+  buttonGlow: {
+    shadowColor: colors.accent.purple,
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.8,
+    shadowRadius: 20,
+    elevation: 15,
+  },
+  buttonGradient: {
+    borderRadius: 50,
+  },
+  button: {
+    height: 48,
+    paddingVertical: 12,
+    paddingHorizontal: 24,
+    alignItems: "center",
+    justifyContent: "center",
   },
   buttonText: {
     fontSize: 16,
