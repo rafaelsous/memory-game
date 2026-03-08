@@ -10,7 +10,9 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
+import { usePressAnimation } from "@/animations/hooks/usePressAnimation";
 import { colors, gradients } from "@/constants/colors";
+import Animated from "react-native-reanimated";
 import { useLoginViewModel } from "./useLogin.viewModel";
 
 export function LoginView({
@@ -18,6 +20,8 @@ export function LoginView({
   setUsername,
   handleSubmit,
 }: Readonly<ReturnType<typeof useLoginViewModel>>) {
+  const handleSubmitPressAnimation = usePressAnimation();
+
   return (
     <SafeAreaView style={styles.container}>
       <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding">
@@ -46,20 +50,24 @@ export function LoginView({
             />
 
             <View style={styles.buttonGlow}>
-              <LinearGradient
-                colors={gradients.colorful}
-                start={{ x: 0, y: 0 }}
-                end={{ x: 1, y: 2 }}
-                style={styles.buttonGradient}
-              >
-                <TouchableOpacity
-                  style={styles.button}
-                  activeOpacity={0.7}
-                  onPress={handleSubmit}
+              <Animated.View style={handleSubmitPressAnimation.animatedStyle}>
+                <LinearGradient
+                  colors={gradients.colorful}
+                  start={{ x: 0, y: 0 }}
+                  end={{ x: 1, y: 2 }}
+                  style={styles.buttonGradient}
                 >
-                  <Text style={styles.buttonText}>Entrar</Text>
-                </TouchableOpacity>
-              </LinearGradient>
+                  <TouchableOpacity
+                    style={styles.button}
+                    activeOpacity={0.7}
+                    onPress={handleSubmit}
+                    onPressIn={handleSubmitPressAnimation.onPressIn}
+                    onPressOut={handleSubmitPressAnimation.onPressOut}
+                  >
+                    <Text style={styles.buttonText}>Entrar</Text>
+                  </TouchableOpacity>
+                </LinearGradient>
+              </Animated.View>
             </View>
           </View>
         </View>
