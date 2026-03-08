@@ -5,6 +5,7 @@ import {
   withSpring,
   WithSpringConfig,
 } from "react-native-reanimated";
+
 import { SPRING_CONFIG } from "../config/animation.config";
 
 interface UsePressAnimationConfig {

@@ -1,19 +1,24 @@
 import { LinearGradient } from "expo-linear-gradient";
 import {
   Image,
+  Keyboard,
   KeyboardAvoidingView,
   StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
+  TouchableWithoutFeedback,
   View,
 } from "react-native";
+import Animated from "react-native-reanimated";
 import { SafeAreaView } from "react-native-safe-area-context";
 
+import { useInputFocusAnimation } from "@/animations/hooks/useInputFocusAnimation";
 import { usePressAnimation } from "@/animations/hooks/usePressAnimation";
 import { colors, gradients } from "@/constants/colors";
-import Animated from "react-native-reanimated";
 import { useLoginViewModel } from "./useLogin.viewModel";
+
+const AnimatedTextInput = Animated.createAnimatedComponent(TextInput);
 
 export function LoginView({
   username,
@@ -21,58 +26,64 @@ export function LoginView({
   handleSubmit,
 }: Readonly<ReturnType<typeof useLoginViewModel>>) {
   const handleSubmitPressAnimation = usePressAnimation();
+  const textInputFocusAnimation = useInputFocusAnimation();
 
   return (
-    <SafeAreaView style={styles.container}>
-      <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding">
-        <View style={styles.content}>
-          <View style={styles.logoContainer}>
-            <Image
-              style={styles.logo}
-              source={require("@/assets/logo.png")}
-              resizeMode="contain"
-            />
+    <TouchableWithoutFeedback style={{ flex: 1 }} onPress={Keyboard.dismiss}>
+      <SafeAreaView style={styles.container}>
+        <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding">
+          <View style={styles.content}>
+            <View style={styles.logoContainer}>
+              <Image
+                style={styles.logo}
+                source={require("@/assets/logo.png")}
+                resizeMode="contain"
+              />
 
-            <Text style={styles.title}>memory game</Text>
-            <Text style={styles.subtitle}>
-              Teste sua memória enquanto aprende!
-            </Text>
-          </View>
+              <Text style={styles.title}>memory game</Text>
+              <Text style={styles.subtitle}>
+                Teste sua memória enquanto aprende!
+              </Text>
+            </View>
 
-          <View style={styles.formContainer}>
-            <TextInput
-              style={styles.input}
-              placeholder="Digite seu nome"
-              autoCapitalize="words"
-              returnKeyType="done"
-              onChangeText={setUsername}
-              value={username}
-            />
+            <View style={styles.formContainer}>
+              <AnimatedTextInput
+                style={[styles.input, textInputFocusAnimation.animatedStyle]}
+                placeholder="Digite seu nome"
+                autoCapitalize="words"
+                returnKeyType="done"
+                onChangeText={setUsername}
+                value={username}
+                onFocus={textInputFocusAnimation.onFocus}
+                onBlur={textInputFocusAnimation.onBlur}
+                placeholderTextColor={colors.grayscale.gray300}
+              />
 
-            <View style={styles.buttonGlow}>
-              <Animated.View style={handleSubmitPressAnimation.animatedStyle}>
-                <LinearGradient
-                  colors={gradients.colorful}
-                  start={{ x: 0, y: 0 }}
-                  end={{ x: 1, y: 2 }}
-                  style={styles.buttonGradient}
-                >
-                  <TouchableOpacity
-                    style={styles.button}
-                    activeOpacity={0.7}
-                    onPress={handleSubmit}
-                    onPressIn={handleSubmitPressAnimation.onPressIn}
-                    onPressOut={handleSubmitPressAnimation.onPressOut}
+              <View style={styles.buttonGlow}>
+                <Animated.View style={handleSubmitPressAnimation.animatedStyle}>
+                  <LinearGradient
+                    colors={gradients.colorful}
+                    start={{ x: 0, y: 0 }}
+                    end={{ x: 1, y: 2 }}
+                    style={styles.buttonGradient}
                   >
-                    <Text style={styles.buttonText}>Entrar</Text>
-                  </TouchableOpacity>
-                </LinearGradient>
-              </Animated.View>
+                    <TouchableOpacity
+                      style={styles.button}
+                      activeOpacity={0.7}
+                      onPress={handleSubmit}
+                      onPressIn={handleSubmitPressAnimation.onPressIn}
+                      onPressOut={handleSubmitPressAnimation.onPressOut}
+                    >
+                      <Text style={styles.buttonText}>Entrar</Text>
+                    </TouchableOpacity>
+                  </LinearGradient>
+                </Animated.View>
+              </View>
             </View>
           </View>
-        </View>
-      </KeyboardAvoidingView>
-    </SafeAreaView>
+        </KeyboardAvoidingView>
+      </SafeAreaView>
+    </TouchableWithoutFeedback>
   );
 }
 
@@ -119,6 +130,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: colors.grayscale.gray400,
     borderRadius: 50,
+    textAlign: "center",
   },
   // Estilo para o efeito de glow do botão (somente para iOS, pois Android não suporta sombras)
   buttonGlow: {
