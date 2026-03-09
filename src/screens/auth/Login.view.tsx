@@ -16,6 +16,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useInputFocusAnimation } from "@/animations/hooks/useInputFocusAnimation";
 import { usePressAnimation } from "@/animations/hooks/usePressAnimation";
 import { colors, gradients } from "@/constants/colors";
+import { AppText } from "@/shared/components/AppText";
 import { useLoginViewModel } from "./useLogin.viewModel";
 
 const AnimatedTextInput = Animated.createAnimatedComponent(TextInput);
@@ -40,10 +41,12 @@ export function LoginView({
                 resizeMode="contain"
               />
 
-              <Text style={styles.title}>memory game</Text>
-              <Text style={styles.subtitle}>
-                Teste sua memória enquanto aprende!
-              </Text>
+              <View style={styles.textContainer}>
+                <AppText style={styles.title}>memory game</AppText>
+                <AppText style={styles.subtitle}>
+                  Teste sua memória enquanto aprende!
+                </AppText>
+              </View>
             </View>
 
             <View style={styles.formContainer}>
@@ -101,15 +104,18 @@ const styles = StyleSheet.create({
   },
   logoContainer: {
     alignItems: "center",
-    gap: 20,
+    gap: 16,
   },
   logo: {
     width: 71,
     height: 71,
   },
+  textContainer: {
+    alignItems: "center",
+  },
   title: {
     fontSize: 28,
-    fontWeight: "bold",
+    fontFamily: "Baloo2_800ExtraBold",
     color: colors.grayscale.gray100,
   },
   subtitle: {
