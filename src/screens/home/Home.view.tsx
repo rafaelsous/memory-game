@@ -5,6 +5,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { colors } from "@/constants/colors";
 import { AppText } from "@/shared/components/AppText";
 import { useAuthStore } from "@/shared/stores/auth.store";
+import { HomeHeader } from "./components/HomeHeader";
 
 export default function HomeView() {
   const { logout } = useAuthStore();
@@ -17,6 +18,7 @@ export default function HomeView() {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.content}>
+        <HomeHeader />
         <AppText>Home Screen</AppText>
 
         <TouchableOpacity onPress={handleLogout}>

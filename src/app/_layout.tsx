@@ -15,13 +15,11 @@ export default function RootLayout() {
     Baloo2_800ExtraBold,
   });
 
-  console.log("Fonts loaded:", fontsLoaded);
-
-  return (
+  return fontsLoaded ? (
     <Stack screenOptions={{ headerShown: false }}>
       <Stack.Screen name="(public)" />
       <Stack.Screen name="(private)" />
       <Stack.Screen name="index" />
     </Stack>
-  );
+  ) : null;
 }
