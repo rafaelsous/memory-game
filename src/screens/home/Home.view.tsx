@@ -5,6 +5,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { colors } from "@/constants/colors";
 import { AppText } from "@/shared/components/AppText";
 import { useAuthStore } from "@/shared/stores/auth.store";
+import { DifficultySelector } from "./components/DifficultySelector";
 import { HomeHeader } from "./components/HomeHeader";
 
 export default function HomeView() {
@@ -19,6 +20,8 @@ export default function HomeView() {
     <SafeAreaView style={styles.container}>
       <View style={styles.content}>
         <HomeHeader />
+        <DifficultySelector />
+
         <AppText>Home Screen</AppText>
 
         <TouchableOpacity onPress={handleLogout}>
@@ -32,7 +35,7 @@ export default function HomeView() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.grayscale.gray700,
+    backgroundColor: colors.grayscale.gray600,
   },
   content: {
     flex: 1,
