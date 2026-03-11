@@ -3,6 +3,8 @@ import { Pressable, StyleSheet, View } from "react-native";
 
 import { colors } from "@/constants/colors";
 import { AppText } from "@/shared/components/AppText";
+import { getDifficultyColor } from "@/shared/utils/difficulty";
+import { DifficultyIcon } from "./DifficultyIcon";
 import { useDifficultySelectorViewModel } from "./useDifficultySelector.viewModel";
 
 export function DifficultySelectorView() {
@@ -22,6 +24,12 @@ export function DifficultySelectorView() {
       <View style={styles.difficultyTabs}>
         {difficulties.map((difficulty) => (
           <Pressable key={difficulty} style={styles.difficultyTab}>
+            <DifficultyIcon
+              difficulty={difficulty}
+              color={getDifficultyColor(difficulty)}
+              inactiveColor={colors.grayscale.gray200}
+              isSelected
+            />
             <AppText>{difficulty}</AppText>
           </Pressable>
         ))}
@@ -70,7 +78,6 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingVertical: 8,
     flexDirection: "row",
-    alignItems: "center",
     justifyContent: "center",
     gap: 8,
     borderRadius: 999,
