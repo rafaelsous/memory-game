@@ -22,11 +22,17 @@ export default function HomeView() {
         <HomeHeader />
         <DifficultySelector />
 
-        <AppText>Home Screen</AppText>
+        <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+          <AppText>Home Screen</AppText>
 
-        <TouchableOpacity onPress={handleLogout}>
-          <AppText>Sair</AppText>
-        </TouchableOpacity>
+          <TouchableOpacity
+            onPress={handleLogout}
+            activeOpacity={0.7}
+            hitSlop={16}
+          >
+            <AppText>Sair</AppText>
+          </TouchableOpacity>
+        </View>
       </View>
     </SafeAreaView>
   );
@@ -40,5 +46,6 @@ const styles = StyleSheet.create({
   content: {
     flex: 1,
     paddingHorizontal: 24,
+    gap: 32,
   },
 });

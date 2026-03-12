@@ -8,7 +8,8 @@ import { DifficultyIcon } from "./DifficultyIcon";
 import { useDifficultySelectorViewModel } from "./useDifficultySelector.viewModel";
 
 export function DifficultySelectorView() {
-  const { difficulties } = useDifficultySelectorViewModel();
+  const { difficulties, selectedDifficulty, setSelectedDifficulty } =
+    useDifficultySelectorViewModel();
 
   return (
     <View style={styles.container}>
@@ -23,12 +24,16 @@ export function DifficultySelectorView() {
 
       <View style={styles.difficultyTabs}>
         {difficulties.map((difficulty) => (
-          <Pressable key={difficulty} style={styles.difficultyTab}>
+          <Pressable
+            key={difficulty}
+            style={styles.difficultyTab}
+            onPress={() => setSelectedDifficulty(difficulty)}
+          >
             <DifficultyIcon
               difficulty={difficulty}
               color={getDifficultyColor(difficulty)}
               inactiveColor={colors.grayscale.gray200}
-              isSelected
+              isSelected={selectedDifficulty === difficulty}
             />
             <AppText>{difficulty}</AppText>
           </Pressable>
@@ -40,7 +45,6 @@ export function DifficultySelectorView() {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     gap: 12,
   },
   header: {
