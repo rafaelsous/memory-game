@@ -3,6 +3,6 @@ import {
   DifficultyIconViewProps,
 } from "./DifficultyIcon.view";
 
-export function DifficultyIcon(props: DifficultyIconViewProps) {
+export function DifficultyIcon(props: Readonly<DifficultyIconViewProps>) {
   return <DifficultyIconView {...props} />;
 }

@@ -1,15 +1,19 @@
 import { Clock4 } from "lucide-react-native";
-import { Pressable, StyleSheet, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 
 import { colors } from "@/constants/colors";
 import { AppText } from "@/shared/components/AppText";
-import { getDifficultyColor } from "@/shared/utils/difficulty";
-import { DifficultyIcon } from "./DifficultyIcon";
+import Animated from "react-native-reanimated";
+import { DifficultyTab } from "./DifficultyTab";
 import { useDifficultySelectorViewModel } from "./useDifficultySelector.viewModel";
 
 export function DifficultySelectorView() {
-  const { difficulties, selectedDifficulty, setSelectedDifficulty } =
-    useDifficultySelectorViewModel();
+  const {
+    difficulties,
+    selectedDifficulty,
+    setSelectedDifficulty,
+    animatedIndicatorStyle,
+  } = useDifficultySelectorViewModel();
 
   return (
     <View style={styles.container}>
@@ -17,27 +21,23 @@ export function DifficultySelectorView() {
         <AppText style={styles.headerText}>Dificuldade</AppText>
 
         <View style={styles.timeIndicator}>
-          <Clock4 size={16} color={colors.accent.green} />
+          <Clock4 size={16} color={colors.feedback.info} />
           <AppText style={styles.timeIndicatorText}>5 min</AppText>
         </View>
       </View>
 
       <View style={styles.difficultyTabs}>
-        {difficulties.map((difficulty) => (
-          <Pressable
-            key={difficulty}
-            style={styles.difficultyTab}
-            onPress={() => setSelectedDifficulty(difficulty)}
-          >
-            <DifficultyIcon
+        <Animated.View style={[styles.indicator, animatedIndicatorStyle]} />
+        {difficulties.map((difficulty) => {
+          return (
+            <DifficultyTab
+              key={difficulty}
               difficulty={difficulty}
-              color={getDifficultyColor(difficulty)}
-              inactiveColor={colors.grayscale.gray200}
-              isSelected={selectedDifficulty === difficulty}
+              setSelectedDifficulty={setSelectedDifficulty}
+              isSelected={difficulty === selectedDifficulty}
             />
-            <AppText>{difficulty}</AppText>
-          </Pressable>
-        ))}
+          );
+        })}
       </View>
     </View>
   );
@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   difficultyTabs: {
-    padding: 8,
+    padding: 4,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
@@ -78,13 +78,17 @@ const styles = StyleSheet.create({
     borderColor: colors.grayscale.gray400,
     borderRadius: 999,
   },
-  difficultyTab: {
-    flex: 1,
-    paddingVertical: 8,
-    flexDirection: "row",
-    justifyContent: "center",
-    gap: 8,
+  indicator: {
+    position: "absolute",
+    width: "33.33%",
+    top: 4,
+    left: 0,
+    bottom: 4,
+    marginLeft: 4,
+    zIndex: 0,
+    backgroundColor: colors.grayscale.gray500,
+    borderWidth: 1,
+    borderColor: colors.grayscale.gray400,
     borderRadius: 999,
-    zIndex: 1,
   },
 });

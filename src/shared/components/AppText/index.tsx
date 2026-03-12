@@ -1,5 +1,6 @@
-import { colors } from "@/constants/colors";
 import { Text, TextProps } from "react-native";
+
+import { colors } from "@/constants/colors";
 
 export function AppText(params: Readonly<TextProps>) {
   return (

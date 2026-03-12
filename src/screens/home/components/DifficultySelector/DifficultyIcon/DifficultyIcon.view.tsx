@@ -10,7 +10,7 @@ export interface DifficultyIconViewProps {
   isSelected: boolean;
 }
 
-export function DifficultyIconView(props: DifficultyIconViewProps) {
+export function DifficultyIconView(props: Readonly<DifficultyIconViewProps>) {
   const { getBarStyle } = useDifficultyIconViewModel(props);
 
   return (
