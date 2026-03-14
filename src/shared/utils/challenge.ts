@@ -33,7 +33,7 @@ export const challengeTheme: ChallengeTheme[] = [
       },
     ],
     gradient: gradients.purpleDark as [string, string],
-    arrowColor: colors.accent.purple,
+    arrowColor: colors.accent.lightPurple,
   },
   {
     id: "frameworks",
