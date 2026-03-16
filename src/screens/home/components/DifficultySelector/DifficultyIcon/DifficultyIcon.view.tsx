@@ -1,6 +1,6 @@
 import { StyleSheet, View } from "react-native";
 
-import { Difficulty } from "@/interfaces/difficulty";
+import { Difficulty } from "@/shared/interfaces/difficulty";
 import { useDifficultyIconViewModel } from "./useDifficultyIcon.viewModel";
 
 export interface DifficultyIconViewProps {

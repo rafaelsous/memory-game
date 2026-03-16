@@ -11,7 +11,7 @@ export type GameStatus =
   | "won"
   | "lost";
 
-interface Challenge {
+export interface Challenge {
   id: string;
   title: string;
   difficulty: Difficulty;

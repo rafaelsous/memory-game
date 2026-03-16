@@ -5,7 +5,7 @@ import {
   withSpring,
 } from "react-native-reanimated";
 
-import { Difficulty } from "@/interfaces/difficulty";
+import { Difficulty } from "@/shared/interfaces/difficulty";
 
 export function useDifficultySelectorViewModel() {
   const difficulties: Difficulty[] = ["Fácil", "Médio", "Difícil"] as const;

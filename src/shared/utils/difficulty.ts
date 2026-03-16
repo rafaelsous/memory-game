@@ -1,5 +1,5 @@
 import { colors } from "@/constants/colors";
-import { Difficulty } from "@/interfaces/difficulty";
+import { Difficulty } from "@/shared/interfaces/difficulty";
 
 const difficultyColors: Record<Difficulty, string> = {
   Fácil: colors.feedback.info,

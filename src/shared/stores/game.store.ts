@@ -1,6 +1,6 @@
 import { create } from "zustand";
 
-import { GameResult, GameState } from "@/interfaces/challenge";
+import { GameResult, GameState } from "@/shared/interfaces/challenge";
 
 interface GameStore extends GameState {
   initGame: (challengeId: string) => void;

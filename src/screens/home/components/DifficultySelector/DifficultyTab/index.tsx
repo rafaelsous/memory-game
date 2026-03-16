@@ -1,8 +1,8 @@
 import { Pressable, StyleSheet, View } from "react-native";
 
 import { colors } from "@/constants/colors";
-import { Difficulty } from "@/interfaces/difficulty";
 import { AppText } from "@/shared/components/AppText";
+import { Difficulty } from "@/shared/interfaces/difficulty";
 import { getDifficultyColor } from "@/shared/utils/difficulty";
 import { DifficultyIcon } from "../DifficultyIcon";
 
