@@ -21,11 +21,17 @@ interface Challenge {
   gradient?: [string, string, ...string[]];
 }
 
+export interface StoreCard extends CardItem {
+  id: string;
+  isFlipped: boolean;
+  isMatched: boolean;
+}
+
 export interface GameState {
   status: GameStatus;
   challenge: Challenge | null;
   cards: CardItem[];
-  selectedCards: CardItem[];
+  selectedCards: StoreCard[];
   timeRemainingInSeconds: number;
   timeElapsedInSeconds: number;
   startedAt: Date | null;
