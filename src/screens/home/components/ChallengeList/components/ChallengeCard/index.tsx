@@ -12,18 +12,24 @@ interface ChallengeCardProps {
   challenge: ChallengeTheme;
 }
 
+const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
+
 export function ChallengeCard({ challenge }: Readonly<ChallengeCardProps>) {
   const pressAnimation = usePressAnimation();
 
   return (
-    <LinearGradient
-      colors={challenge.gradient as readonly [string, string, ...string[]]}
-      start={{ x: 0, y: 0 }}
-      end={{ x: 1, y: 0 }}
-      style={styles.container}
+    <AnimatedPressable
+      style={pressAnimation.animatedStyle}
+      onPressIn={pressAnimation.onPressIn}
+      onPressOut={pressAnimation.onPressOut}
     >
-      <Animated.View style={pressAnimation.animatedStyle}>
-        <Pressable style={styles.content}>
+      <LinearGradient
+        colors={challenge.gradient as readonly [string, string, ...string[]]}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 0 }}
+        style={styles.container}
+      >
+        <View style={styles.content}>
           <AppText style={styles.title}>{challenge.title}</AppText>
           <View
             style={[
@@ -33,9 +39,9 @@ export function ChallengeCard({ challenge }: Readonly<ChallengeCardProps>) {
           >
             <ArrowRight size={20} color={colors.grayscale.gray700} />
           </View>
-        </Pressable>
-      </Animated.View>
-    </LinearGradient>
+        </View>
+      </LinearGradient>
+    </AnimatedPressable>
   );
 }
 

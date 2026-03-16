@@ -39,7 +39,6 @@ export function HomeHeader() {
 
 const styles = StyleSheet.create({
   container: {
-    // flex: 1,
     flexDirection: "row",
     alignItems: "flex-start",
     justifyContent: "space-between",
@@ -63,7 +62,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: colors.grayscale.gray450,
+    backgroundColor: colors.grayscale.gray500,
     borderWidth: 1,
     borderColor: colors.grayscale.gray400,
   },
