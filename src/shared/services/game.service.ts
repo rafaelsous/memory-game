@@ -94,4 +94,22 @@ export class GameService {
       };
     }
   }
+
+  static resetMismatchedCards(gameState: GameState) {
+    const { cards, selectedCards } = gameState;
+
+    const updatedCardArray = cards.map((card) => {
+      const isSelected = selectedCards.some(({ id }) => card.id === id);
+
+      return isSelected && !card.isMatched
+        ? CardService.flipCard(card, false)
+        : card;
+    });
+
+    return {
+      ...gameState,
+      cards: updatedCardArray,
+      selectedCards: [],
+    };
+  }
 }
