@@ -7,9 +7,7 @@ export type GameStatus =
   | "playing"
   | "paused"
   | "finished"
-  | "timeout"
-  | "won"
-  | "lost";
+  | "timeout";
 
 export interface Challenge {
   id: string;
@@ -30,7 +28,7 @@ export interface StoreCard extends CardItem {
 export interface GameState {
   status: GameStatus;
   challenge: Challenge | null;
-  cards: CardItem[];
+  cards: StoreCard[];
   selectedCards: StoreCard[];
   timeRemainingInSeconds: number;
   timeElapsedInSeconds: number;

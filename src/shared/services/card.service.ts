@@ -47,4 +47,19 @@ export class CardService {
 
     return shuffled;
   }
+
+  static flipCard(card: StoreCard, flipped: boolean): StoreCard {
+    return {
+      ...card,
+      isFlipped: flipped,
+    };
+  }
+
+  static markAsMatched(card: StoreCard): StoreCard {
+    return {
+      ...card,
+      isFlipped: true,
+      isMatched: true,
+    };
+  }
 }
