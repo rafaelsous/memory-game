@@ -95,7 +95,7 @@ export class GameService {
     }
   }
 
-  static resetMismatchedCards(gameState: GameState) {
+  static resetMismatchedCards(gameState: GameState): GameState {
     const { cards, selectedCards } = gameState;
 
     const updatedCardArray = cards.map((card) => {
@@ -111,5 +111,23 @@ export class GameService {
       cards: updatedCardArray,
       selectedCards: [],
     };
+  }
+
+  static pauseGame(gameState: GameState): GameState {
+    return {
+      ...gameState,
+      status: "paused",
+    };
+  }
+
+  static resumeGame(gameState: GameState): GameState {
+    return {
+      ...gameState,
+      status: "playing",
+    };
+  }
+
+  static resetGame(challenge: Challenge): GameState {
+    return this.initializeGame(challenge);
   }
 }
