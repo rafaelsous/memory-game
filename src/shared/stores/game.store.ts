@@ -2,30 +2,14 @@ import { create } from "zustand";
 
 import {
   Challenge,
-  GameResult,
+  GameActions,
   GameState,
 } from "@/shared/interfaces/challenge";
 import { GameService } from "../services/game.service";
 
-interface GameStore extends GameState {
-  initGame: (challenge: Challenge) => void;
-  startGame: () => void;
-  finishGame: () => GameResult | null;
-  selectCard: (cardId: string) => void;
-  resetMismatchedCards: () => void;
-  tick: () => void;
-  _timerId: number | null;
-  startTimer: () => void;
-  stopTimer: () => void;
-  pauseGame: () => void;
-  resumeGame: () => void;
-  resetGame: () => void;
-  clearGame: () => void;
-  previewAllCards: () => void;
-  hideAllCards: () => void;
-}
+interface GameStore extends GameState, GameActions {}
 
-export const useGameStore = create<GameStore>((set, get) => ({
+const gameStoreDefaultValues: GameState = {
   status: "idle",
   challenge: null,
   cards: [],
@@ -33,6 +17,10 @@ export const useGameStore = create<GameStore>((set, get) => ({
   remainingTimeInSeconds: 0,
   elapsedTimeInSeconds: 0,
   startedAt: null,
+};
+
+export const useGameStore = create<GameStore>((set, get) => ({
+  ...gameStoreDefaultValues,
 
   initGame: (challenge: Challenge) => {
     const gameState = GameService.initializeGame(challenge);
@@ -100,13 +88,37 @@ export const useGameStore = create<GameStore>((set, get) => ({
   _timerId: null,
 
   // Game lifecycle methods
-  pauseGame: () => {},
+  pauseGame: () => {
+    const currentState = get();
+    const newState = GameService.pauseGame(currentState);
 
-  resumeGame: () => {},
+    set(newState);
+    get().stopTimer();
+  },
 
-  resetGame: () => {},
+  resumeGame: () => {
+    const currentState = get();
+    const newState = GameService.resumeGame(currentState);
 
-  clearGame: () => {},
+    set(newState);
+    get().startTimer();
+  },
+
+  resetGame: () => {
+    const currentState = get();
+
+    if (!currentState.challenge) return;
+
+    const newState = GameService.resetGame(currentState.challenge);
+
+    set(newState);
+    get().stopTimer();
+  },
+
+  clearGame: () => {
+    get().stopTimer();
+    set(gameStoreDefaultValues);
+  },
 
   // Utility methods
   previewAllCards: () => {},
