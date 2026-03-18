@@ -1,4 +1,9 @@
-import { Challenge, GameResult, GameState } from "../interfaces/challenge";
+import {
+  Challenge,
+  GameResult,
+  GameState,
+  StoreCard,
+} from "../interfaces/challenge";
 import { CardService } from "./card.service";
 
 export class GameService {
@@ -22,6 +27,10 @@ export class GameService {
       status: "playing",
       startedAt: new Date(),
     };
+  }
+
+  static isGameComplete(cards: StoreCard[]): boolean {
+    return cards.every((card) => card.isMatched);
   }
 
   static selectCard(
@@ -75,11 +84,14 @@ export class GameService {
           : card;
       });
 
+      const isComplete = this.isGameComplete(finalCards);
+
       return {
         newState: {
           ...gameState,
           cards: finalCards,
           selectedCards: [],
+          status: isComplete ? "finished" : "playing",
         },
         action: "match",
       };
