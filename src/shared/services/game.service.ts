@@ -173,4 +173,12 @@ export class GameService {
       challenge: gameState.challenge,
     };
   }
+
+  static previewAllCards(cards: StoreCard[]): StoreCard[] {
+    return cards.map((card) => CardService.flipCard(card, true));
+  }
+
+  static hideAllCards(cards: StoreCard[]): StoreCard[] {
+    return cards.map((card) => CardService.flipCard(card, false));
+  }
 }

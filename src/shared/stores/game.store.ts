@@ -121,7 +121,23 @@ export const useGameStore = create<GameStore>((set, get) => ({
   },
 
   // Utility methods
-  previewAllCards: () => {},
+  previewAllCards: () => {
+    const currentState = get();
 
-  hideAllCards: () => {},
+    if (!currentState.cards) return;
+
+    const cards = GameService.previewAllCards(currentState.cards);
+
+    set({ cards });
+  },
+
+  hideAllCards: () => {
+    const currentState = get();
+
+    if (!currentState.cards) return;
+
+    const cards = GameService.hideAllCards(currentState.cards);
+
+    set({ cards });
+  },
 }));
