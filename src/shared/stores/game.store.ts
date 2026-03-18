@@ -38,19 +38,23 @@ export const useGameStore = create<GameStore>((set, get) => ({
     const gameState = GameService.initializeGame(challenge);
     set(gameState);
   },
+
   startGame: () => {
     const currentState = get();
     const newState = GameService.startGame(currentState);
 
     set(newState);
   },
+
   finishGame: () => {
     const currentState = get();
     const result = GameService.finishGame(currentState);
 
     return result;
   },
+
   selectCard: (cardId: string) => {},
+
   resetMismatchedCards: () => {
     const currentState = get();
     const newState = GameService.resetMismatchedCards(currentState);
@@ -59,18 +63,53 @@ export const useGameStore = create<GameStore>((set, get) => ({
   },
 
   // Timer related methods
-  tick: () => {},
-  startTimer: () => {},
-  stopTimer: () => {},
+  tick: () => {
+    const currentState = get();
+    const newState = GameService.tick(currentState);
+
+    set(newState);
+
+    if (newState.status === "timeout") {
+      get().stopTimer();
+    }
+  },
+
+  startTimer: () => {
+    const currentState = get();
+
+    if (currentState._timerId) {
+      clearInterval(currentState._timerId);
+    }
+
+    const timerId = setInterval(() => {
+      get().tick();
+    }, 1000);
+
+    set({ _timerId: timerId });
+  },
+
+  stopTimer: () => {
+    const currentState = get();
+
+    if (currentState._timerId) {
+      clearInterval(currentState._timerId);
+      set({ _timerId: null });
+    }
+  },
+
   _timerId: null,
 
   // Game lifecycle methods
   pauseGame: () => {},
+
   resumeGame: () => {},
+
   resetGame: () => {},
+
   clearGame: () => {},
 
   // Utility methods
   previewAllCards: () => {},
+
   hideAllCards: () => {},
 }));
