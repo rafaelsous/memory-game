@@ -1,4 +1,4 @@
-import { Challenge, GameState } from "../interfaces/challenge";
+import { Challenge, GameResult, GameState } from "../interfaces/challenge";
 import { CardService } from "./card.service";
 
 export class GameService {
@@ -10,8 +10,8 @@ export class GameService {
       challenge,
       selectedCards: [],
       cards,
-      timeRemainingInSeconds: challenge.timeLimitInSeconds,
-      timeElapsedInSeconds: 0,
+      remainingTimeInSeconds: challenge.timeLimitInSeconds,
+      elapsedTimeInSeconds: 0,
       startedAt: null,
     };
   }
@@ -129,5 +129,36 @@ export class GameService {
 
   static resetGame(challenge: Challenge): GameState {
     return this.initializeGame(challenge);
+  }
+
+  static tick(gameState: GameState): GameState {
+    if (gameState.status !== "playing") {
+      return gameState;
+    }
+
+    const remainingTimeInSeconds = Math.max(
+      0,
+      gameState.remainingTimeInSeconds - 1,
+    );
+    const elapsedTimeInSeconds = gameState.elapsedTimeInSeconds + 1;
+
+    return {
+      ...gameState,
+      remainingTimeInSeconds,
+      elapsedTimeInSeconds,
+      status: remainingTimeInSeconds === 0 ? "timeout" : gameState.status,
+    };
+  }
+
+  static finishGame(gameState: GameState): GameResult | null {
+    if (!gameState.challenge) {
+      return null;
+    }
+
+    return {
+      completed: Boolean(gameState.status === "finished"),
+      timeElapsedInSeconds: gameState.elapsedTimeInSeconds,
+      challenge: gameState.challenge,
+    };
   }
 }

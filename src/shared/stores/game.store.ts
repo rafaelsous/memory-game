@@ -25,8 +25,8 @@ export const useGameStore = create<GameStore>((set, get) => ({
   challenge: null,
   cards: [],
   selectedCards: [],
-  timeRemainingInSeconds: 0,
-  timeElapsedInSeconds: 0,
+  remainingTimeInSeconds: 0,
+  elapsedTimeInSeconds: 0,
   startedAt: null,
 
   initGame: (challengeId: string) => {},

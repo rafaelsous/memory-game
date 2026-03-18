@@ -30,8 +30,8 @@ export interface GameState {
   challenge: Challenge | null;
   cards: StoreCard[];
   selectedCards: StoreCard[];
-  timeRemainingInSeconds: number;
-  timeElapsedInSeconds: number;
+  remainingTimeInSeconds: number;
+  elapsedTimeInSeconds: number;
   startedAt: Date | null;
 }
 
