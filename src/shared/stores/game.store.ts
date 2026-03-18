@@ -1,9 +1,14 @@
 import { create } from "zustand";
 
-import { GameResult, GameState } from "@/shared/interfaces/challenge";
+import {
+  Challenge,
+  GameResult,
+  GameState,
+} from "@/shared/interfaces/challenge";
+import { GameService } from "../services/game.service";
 
 interface GameStore extends GameState {
-  initGame: (challengeId: string) => void;
+  initGame: (challenge: Challenge) => void;
   startGame: () => void;
   finishGame: () => GameResult | null;
   selectCard: (cardId: string) => void;
@@ -29,11 +34,29 @@ export const useGameStore = create<GameStore>((set, get) => ({
   elapsedTimeInSeconds: 0,
   startedAt: null,
 
-  initGame: (challengeId: string) => {},
-  startGame: () => {},
-  finishGame: () => null,
+  initGame: (challenge: Challenge) => {
+    const gameState = GameService.initializeGame(challenge);
+    set(gameState);
+  },
+  startGame: () => {
+    const currentState = get();
+    const newState = GameService.startGame(currentState);
+
+    set(newState);
+  },
+  finishGame: () => {
+    const currentState = get();
+    const result = GameService.finishGame(currentState);
+
+    return result;
+  },
   selectCard: (cardId: string) => {},
-  resetMismatchedCards: () => {},
+  resetMismatchedCards: () => {
+    const currentState = get();
+    const newState = GameService.resetMismatchedCards(currentState);
+
+    set(newState);
+  },
 
   // Timer related methods
   tick: () => {},
