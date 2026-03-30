@@ -58,3 +58,27 @@ export interface GameResult {
   challenge: Challenge;
   timeElapsedInSeconds: number;
 }
+
+export interface DifficultyConfig {
+  difficulty: Difficulty;
+  timeLimitInSeconds: number;
+  estimedTime: string;
+}
+
+export const difficultyConfigs: Record<Difficulty, DifficultyConfig> = {
+  Fácil: {
+    difficulty: "Fácil",
+    timeLimitInSeconds: 300,
+    estimedTime: "5 minutos",
+  },
+  Médio: {
+    difficulty: "Médio",
+    timeLimitInSeconds: 240,
+    estimedTime: "4 minutos",
+  },
+  Difícil: {
+    difficulty: "Difícil",
+    timeLimitInSeconds: 30,
+    estimedTime: "3 minutos",
+  },
+};

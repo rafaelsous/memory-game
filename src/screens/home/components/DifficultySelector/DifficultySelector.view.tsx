@@ -10,6 +10,8 @@ import { useDifficultySelectorViewModel } from "./useDifficultySelector.viewMode
 export function DifficultySelectorView() {
   const {
     difficulties,
+    difficultyConfig,
+    timeAnimatedStyle,
     selectedDifficulty,
     setSelectedDifficulty,
     animatedIndicatorStyle,
@@ -20,10 +22,12 @@ export function DifficultySelectorView() {
       <View style={styles.header}>
         <AppText style={styles.headerText}>Dificuldade</AppText>
 
-        <View style={styles.timeIndicator}>
+        <Animated.View style={[styles.timeIndicator, timeAnimatedStyle]}>
           <Clock4 size={16} color={colors.feedback.info} />
-          <AppText style={styles.timeIndicatorText}>5 min</AppText>
-        </View>
+          <AppText style={styles.timeIndicatorText}>
+            {difficultyConfig.estimedTime}
+          </AppText>
+        </Animated.View>
       </View>
 
       <View style={styles.difficultyTabs}>
