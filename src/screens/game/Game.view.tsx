@@ -3,6 +3,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 import { colors } from "@/constants/colors";
 import { AppText } from "@/shared/components/AppText";
+import { CountDownOverlay } from "./components/CountDownOverlay";
 import { useGameViewModel } from "./useGame.viewModel";
 
 export function GameView({
@@ -16,6 +17,8 @@ export function GameView({
           Encontre todos os pares dentro do tempo!
         </AppText>
       </View>
+
+      <CountDownOverlay />
     </SafeAreaView>
   );
 }
