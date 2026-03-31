@@ -1,17 +1,8 @@
-import { useLocalSearchParams } from "expo-router";
-import { Text, View } from "react-native";
+import { GameView } from "@/screens/game/Game.view";
+import { useGameViewModel } from "@/screens/game/useGame.viewModel";
 
 export default function Game() {
-  const { themeId, difficulty } = useLocalSearchParams<{
-    themeId: string;
-    difficulty: string;
-  }>();
+  const viewModel = useGameViewModel();
 
-  return (
-    <View>
-      <Text>Game Screen</Text>
-      <Text>Theme ID: {themeId}</Text>
-      <Text>Difficulty: {difficulty}</Text>
-    </View>
-  );
+  return <GameView {...viewModel} />;
 }
