@@ -5,7 +5,13 @@ import { AppText } from "@/shared/components/AppText";
 import { challengeTheme } from "@/shared/utils/challenge";
 import { ChallengeCard } from "./components/ChallengeCard";
 
-export function ChallengeList() {
+interface ChallengeListProps {
+  onSelectChallenge: (themeId: string) => void;
+}
+
+export function ChallengeList({
+  onSelectChallenge,
+}: Readonly<ChallengeListProps>) {
   return (
     <View style={styles.container}>
       <AppText style={styles.title}>Desafios diponíveis</AppText>
@@ -13,6 +19,7 @@ export function ChallengeList() {
         <ChallengeCard
           key={`challenge-id-${challenge.id}`}
           challenge={challenge}
+          handleSelectChallenge={onSelectChallenge}
         />
       ))}
     </View>

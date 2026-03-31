@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import {
   useAnimatedStyle,
   useSharedValue,
@@ -8,13 +8,14 @@ import {
 import { useNumberAnimation } from "@/animations/hooks/useNumberAnimation";
 import { difficultyConfigs } from "@/shared/interfaces/challenge";
 import { Difficulty } from "@/shared/interfaces/difficulty";
+import { DifficultySelectorProps } from "./DifficultySelector.view";
 
 const difficulties: Difficulty[] = ["Fácil", "Médio", "Difícil"] as const;
 
-export function useDifficultySelectorViewModel() {
-  const [selectedDifficulty, setSelectedDifficulty] =
-    useState<Difficulty>("Fácil");
-
+export function useDifficultySelectorViewModel({
+  selectedDifficulty,
+  setSelectedDifficulty,
+}: DifficultySelectorProps) {
   const difficultyConfig = difficultyConfigs[selectedDifficulty];
 
   const { animatedStyle: timeAnimatedStyle } = useNumberAnimation(

@@ -1,21 +1,31 @@
 import { Clock4 } from "lucide-react-native";
 import { StyleSheet, View } from "react-native";
+import Animated from "react-native-reanimated";
 
 import { colors } from "@/constants/colors";
 import { AppText } from "@/shared/components/AppText";
-import Animated from "react-native-reanimated";
+import { Difficulty } from "@/shared/interfaces/difficulty";
 import { DifficultyTab } from "./DifficultyTab";
 import { useDifficultySelectorViewModel } from "./useDifficultySelector.viewModel";
 
-export function DifficultySelectorView() {
+export interface DifficultySelectorProps {
+  selectedDifficulty: Difficulty;
+  setSelectedDifficulty: (difficulty: Difficulty) => void;
+}
+
+export function DifficultySelectorView({
+  selectedDifficulty,
+  setSelectedDifficulty,
+}: Readonly<DifficultySelectorProps>) {
   const {
     difficulties,
     difficultyConfig,
     timeAnimatedStyle,
+    animatedIndicatorStyle,
+  } = useDifficultySelectorViewModel({
     selectedDifficulty,
     setSelectedDifficulty,
-    animatedIndicatorStyle,
-  } = useDifficultySelectorViewModel();
+  });
 
   return (
     <View style={styles.container}>

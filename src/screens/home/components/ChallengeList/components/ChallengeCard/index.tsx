@@ -14,7 +14,12 @@ interface ChallengeCardProps {
 
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
-export function ChallengeCard({ challenge }: Readonly<ChallengeCardProps>) {
+export function ChallengeCard({
+  challenge,
+  handleSelectChallenge,
+}: Readonly<
+  ChallengeCardProps & { handleSelectChallenge: (themeId: string) => void }
+>) {
   const pressAnimation = usePressAnimation();
 
   return (
@@ -22,6 +27,7 @@ export function ChallengeCard({ challenge }: Readonly<ChallengeCardProps>) {
       style={pressAnimation.animatedStyle}
       onPressIn={pressAnimation.onPressIn}
       onPressOut={pressAnimation.onPressOut}
+      onPress={() => handleSelectChallenge(challenge.id)}
     >
       <LinearGradient
         colors={challenge.gradient as readonly [string, string, ...string[]]}

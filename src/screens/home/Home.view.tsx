@@ -5,15 +5,18 @@ import { colors } from "@/constants/colors";
 import { ChallengeList } from "./components/ChallengeList";
 import { DifficultySelector } from "./components/DifficultySelector";
 import { HomeHeader } from "./components/HomeHeader";
+import { useHomeViewModel } from "./components/useHome.viewModel";
 
 export default function HomeView() {
+  const viewModel = useHomeViewModel();
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.content}>
         <HomeHeader />
-        <DifficultySelector />
+        <DifficultySelector {...viewModel} />
 
-        <ChallengeList />
+        <ChallengeList onSelectChallenge={viewModel.handleSelectChallenge} />
       </View>
     </SafeAreaView>
   );
