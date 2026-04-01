@@ -1,8 +1,13 @@
 import { CountDownOverlayView } from "./CountDownOverlay.view";
 import { useCountDownOverlayViewModel } from "./useCountDownOverlay.viewModel";
 
-export function CountDownOverlay() {
-  const viewModel = useCountDownOverlayViewModel();
+export interface CountDownOverlayProps {
+  visibleCountDown: boolean;
+  handleCountdownComplete: () => void;
+}
+
+export function CountDownOverlay(params: Readonly<CountDownOverlayProps>) {
+  const viewModel = useCountDownOverlayViewModel(params);
 
   return <CountDownOverlayView {...viewModel} />;
 }

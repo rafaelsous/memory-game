@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 
-import { useGameStore } from "@/shared/stores/game.store";
+import { CountDownOverlayProps } from "@/screens/game/components/CountDownOverlay";
 
-export function useCountDownOverlayViewModel() {
+export function useCountDownOverlayViewModel({
+  visibleCountDown: visible,
+  handleCountdownComplete: handleCountDownComplete,
+}: CountDownOverlayProps) {
   const [count, setCount] = useState<number>(3);
-  const { status } = useGameStore();
-  const visible = status === "countdown";
 
   useEffect(() => {
     if (visible) {
@@ -19,12 +20,13 @@ export function useCountDownOverlayViewModel() {
           setCount(currentCount);
         } else {
           clearInterval(countdown);
+          handleCountDownComplete();
         }
       }, 1000);
 
       return () => clearInterval(countdown);
     }
-  }, [visible, setCount]);
+  }, [visible, setCount, handleCountDownComplete]);
 
-  return { count, setCount };
+  return { count, visible };
 }

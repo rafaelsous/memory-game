@@ -6,7 +6,10 @@ import { useCountDownOverlayViewModel } from "./useCountDownOverlay.viewModel";
 
 export function CountDownOverlayView({
   count,
+  visible,
 }: Readonly<ReturnType<typeof useCountDownOverlayViewModel>>) {
+  if (!visible) return;
+
   return (
     <View style={styles.overlay}>
       <View style={styles.contentWrapper}>

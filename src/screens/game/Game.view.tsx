@@ -8,6 +8,8 @@ import { useGameViewModel } from "./useGame.viewModel";
 
 export function GameView({
   selectedTheme,
+  visibleCountdown,
+  handleCountdownComplete,
 }: Readonly<ReturnType<typeof useGameViewModel>>) {
   return (
     <SafeAreaView style={styles.container}>
@@ -18,7 +20,10 @@ export function GameView({
         </AppText>
       </View>
 
-      <CountDownOverlay />
+      <CountDownOverlay
+        visibleCountDown={visibleCountdown}
+        handleCountdownComplete={handleCountdownComplete}
+      />
     </SafeAreaView>
   );
 }
