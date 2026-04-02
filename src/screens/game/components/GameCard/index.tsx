@@ -1,9 +1,8 @@
 import { LinearGradient } from "expo-linear-gradient";
-import { Pressable, StyleSheet } from "react-native";
+import { Image, Pressable, StyleSheet } from "react-native";
 import Animated from "react-native-reanimated";
 
 import { colors, gradients } from "@/constants/colors";
-import { AppText } from "@/shared/components/AppText";
 import { StoreCard } from "@/shared/interfaces/challenge";
 
 interface GameCardProps {
@@ -16,8 +15,6 @@ export function GameCard({ card }: Readonly<GameCardProps>) {
     <Animated.View style={[styles.containerWrapper]}>
       <Pressable style={styles.container}>
         <Animated.View style={styles.innerContainer}>
-          <Animated.View></Animated.View>
-
           <Animated.View style={styles.cardFace}>
             <LinearGradient
               style={styles.cardGradient}
@@ -25,9 +22,24 @@ export function GameCard({ card }: Readonly<GameCardProps>) {
               start={{ x: 0, y: 0 }}
               end={{ x: 1, y: 0 }}
             >
-              <AppText>{card.name}</AppText>
+              <Image
+                source={require("@/assets/transparent-logo.png")}
+                style={styles.logoImage}
+              />
             </LinearGradient>
           </Animated.View>
+
+          {/* <Animated.View style={styles.cardFace}>
+            <LinearGradient
+              style={styles.cardGradient}
+              colors={gradients.card}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 0 }}
+            >
+              <Image source={card.image} style={styles.cardImage} />
+              <AppText style={styles.cardText}>{card.name}</AppText>
+            </LinearGradient>
+          </Animated.View> */}
         </Animated.View>
       </Pressable>
     </Animated.View>
@@ -49,9 +61,6 @@ const styles = StyleSheet.create({
   innerContainer: {
     flex: 1,
   },
-  cardContent: {
-    alignItems: "center",
-  },
   cardFace: {
     position: "absolute",
     width: "100%",
@@ -63,5 +72,20 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     borderRadius: 12,
+    gap: 8,
+  },
+  logoImage: {
+    width: 40,
+    height: 40,
+    opacity: 0.4,
+  },
+  cardImage: {
+    width: 42,
+    height: 42,
+    borderRadius: 8,
+  },
+  cardText: {
+    fontSize: 14,
+    color: colors.grayscale.gray100,
   },
 });
