@@ -3,6 +3,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 import { colors } from "@/constants/colors";
 import { AppText } from "@/shared/components/AppText";
+import { CardGrid } from "./components/CardGrid";
 import { CountDownOverlay } from "./components/CountDownOverlay";
 import { useGameViewModel } from "./useGame.viewModel";
 
@@ -18,6 +19,8 @@ export function GameView({
         <AppText style={styles.subtitle}>
           Encontre todos os pares dentro do tempo!
         </AppText>
+
+        <CardGrid />
       </View>
 
       <CountDownOverlay
