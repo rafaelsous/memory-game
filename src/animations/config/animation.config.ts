@@ -22,7 +22,7 @@ export const SPRING_CONFIG = {
   } as WithSpringConfig,
 };
 
-export type AnimationType = "throw" | "deck";
+export type CardEntryAnimationType = "throw" | "deck";
 
 export const ENTRY_ANIMATION_START_POSITIONS = {
   throw: {
