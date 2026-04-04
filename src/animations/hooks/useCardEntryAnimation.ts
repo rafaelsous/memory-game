@@ -1,7 +1,14 @@
 import { useEffect } from "react";
-import { useSharedValue, withDelay, withSpring } from "react-native-reanimated";
+import {
+  useAnimatedStyle,
+  useSharedValue,
+  withDelay,
+  withSpring,
+  withTiming,
+} from "react-native-reanimated";
 
 import {
+  ANIMATION_EASINGS,
   ANIMATION_TIMINGS,
   ENTRY_ANIMATION_START_POSITIONS,
   SPRING_CONFIG,
@@ -20,7 +27,7 @@ export function useCardEntryAnimation({
   const translateX = useSharedValue(0);
   const translateY = useSharedValue(0);
   const opacity = useSharedValue(0);
-  const scale = useSharedValue(0);
+  const scale = useSharedValue(1.2);
   const rotation = useSharedValue(0);
 
   const { entryAnimationType } = useAnimationStore();
@@ -51,8 +58,52 @@ export function useCardEntryAnimation({
           withSpring(0, SPRING_CONFIG.entryDeck),
         );
       }
-    }
-  }, []);
 
-  return {};
+      if (entryAnimationType === "deck") {
+        // Animate from the deck position to the center
+        translateX.value = ENTRY_ANIMATION_START_POSITIONS.deck.x;
+        translateY.value = ENTRY_ANIMATION_START_POSITIONS.deck.y;
+
+        translateX.value = withDelay(
+          delay,
+          withTiming(0, {
+            duration: config.duration,
+            easing: ANIMATION_EASINGS.entry,
+          }),
+        );
+        translateY.value = withDelay(
+          delay,
+          withTiming(0, {
+            duration: config.duration,
+            easing: ANIMATION_EASINGS.entry,
+          }),
+        );
+      }
+
+      // Animate opacity and scale for both types
+      opacity.value = withDelay(delay, withTiming(1, { duration: 150 }));
+      scale.value = withDelay(delay, withSpring(1, SPRING_CONFIG.entryScale));
+    }
+  }, [
+    entryAnimationType,
+    shouldAnimate,
+    cardIndex,
+    translateX,
+    translateY,
+    rotation,
+    opacity,
+    scale,
+  ]);
+
+  const animatedStyle = useAnimatedStyle(() => ({
+    transform: [
+      { translateX: translateX.value },
+      { translateY: translateY.value },
+      { rotate: `${rotation.value}deg` },
+      { scale: scale.value },
+    ],
+    opacity: opacity.value,
+  }));
+
+  return { animatedStyle };
 }
