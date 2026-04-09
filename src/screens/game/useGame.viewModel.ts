@@ -1,6 +1,8 @@
 import { useLocalSearchParams } from "expo-router";
 import { useCallback, useEffect, useState } from "react";
 
+import { useAnimationStore } from "@/animations/store/animation.store";
+import { getEntryAnimationDuration } from "@/animations/utils/animation.utils";
 import { difficultyConfigs } from "@/shared/interfaces/challenge";
 import { Difficulty } from "@/shared/interfaces/difficulty";
 import { useGameStore } from "@/shared/stores/game.store";
@@ -8,7 +10,9 @@ import { challengeTheme } from "@/shared/utils/challenge";
 import { createSequence } from "@/shared/utils/sequence.util";
 
 export function useGameViewModel() {
-  const { initGame, previewAllCards, hideAllCards, startGame } = useGameStore();
+  const { initGame, previewAllCards, hideAllCards, startGame, cards } =
+    useGameStore();
+  const { entryAnimationType } = useAnimationStore();
   const [visibleCountdown, setVisibleCountdown] = useState(false);
 
   const { themeId, difficulty } = useLocalSearchParams<{
@@ -21,8 +25,13 @@ export function useGameViewModel() {
   const handleCountdownComplete = useCallback(() => {
     setVisibleCountdown(false);
 
+    const totalAnimationTime = getEntryAnimationDuration(
+      cards.length,
+      entryAnimationType,
+    );
+
     createSequence()
-      .wait(2000)
+      .wait(totalAnimationTime)
       .do(previewAllCards)
       .wait(2000)
       .do(hideAllCards)
