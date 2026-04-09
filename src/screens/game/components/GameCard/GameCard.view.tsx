@@ -8,12 +8,13 @@ import { useGameCardViewModel } from "./useGameCard.viewModel";
 
 export function GameCardView({
   card,
+  entry,
   selectCard,
   backAnimatedStyle,
   frontAnimatedStyle,
 }: Readonly<ReturnType<typeof useGameCardViewModel>>) {
   return (
-    <Animated.View style={[styles.containerWrapper]}>
+    <Animated.View style={[styles.containerWrapper, entry.animatedStyle]}>
       <Pressable style={styles.container} onPress={() => selectCard(card.id)}>
         <Animated.View style={styles.innerContainer}>
           <Animated.View style={[styles.cardFace, frontAnimatedStyle]}>

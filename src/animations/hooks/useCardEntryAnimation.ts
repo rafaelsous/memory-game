@@ -17,12 +17,10 @@ import { useAnimationStore } from "../store/animation.store";
 
 interface UseCardEntryAnimationProps {
   cardIndex: number;
-  shouldAnimate: boolean;
 }
 
 export function useCardEntryAnimation({
   cardIndex,
-  shouldAnimate,
 }: UseCardEntryAnimationProps) {
   const translateX = useSharedValue(0);
   const translateY = useSharedValue(0);
@@ -30,7 +28,7 @@ export function useCardEntryAnimation({
   const scale = useSharedValue(1.2);
   const rotation = useSharedValue(0);
 
-  const { entryAnimationType } = useAnimationStore();
+  const { entryAnimationType, shouldAnimate } = useAnimationStore();
 
   useEffect(() => {
     if (shouldAnimate) {

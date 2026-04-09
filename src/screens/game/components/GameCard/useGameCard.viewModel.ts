@@ -6,19 +6,26 @@ import {
   withSpring,
 } from "react-native-reanimated";
 
+import { useCardEntryAnimation } from "@/animations/hooks/useCardEntryAnimation";
 import { StoreCard } from "@/shared/interfaces/challenge";
 import { useGameStore } from "@/shared/stores/game.store";
 
 interface GameCardViewModelProps {
   card: StoreCard;
+  index: number;
 }
 
 export function useGameCardViewModel({
   card,
+  index,
 }: Readonly<GameCardViewModelProps>) {
   const rotation = useSharedValue(card.isFlipped ? 180 : 0);
 
   const { selectCard } = useGameStore();
+
+  const entry = useCardEntryAnimation({
+    cardIndex: index,
+  });
 
   const frontAnimatedStyle = useAnimatedStyle(() => ({
     transform: [
@@ -44,6 +51,7 @@ export function useGameCardViewModel({
 
   return {
     card,
+    entry,
     selectCard,
     backAnimatedStyle,
     frontAnimatedStyle,

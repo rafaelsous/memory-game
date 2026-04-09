@@ -1,6 +1,7 @@
 import { useLocalSearchParams } from "expo-router";
 import { useCallback, useEffect, useState } from "react";
 
+import { CardEntryAnimationType } from "@/animations/config/animation.config";
 import { useAnimationStore } from "@/animations/store/animation.store";
 import { getEntryAnimationDuration } from "@/animations/utils/animation.utils";
 import { difficultyConfigs } from "@/shared/interfaces/challenge";
@@ -10,10 +11,13 @@ import { challengeTheme } from "@/shared/utils/challenge";
 import { createSequence } from "@/shared/utils/sequence.util";
 
 export function useGameViewModel() {
-  const { initGame, previewAllCards, hideAllCards, startGame, cards } =
+  const { initGame, previewAllCards, hideAllCards, startGame, status, cards } =
     useGameStore();
-  const { entryAnimationType } = useAnimationStore();
-  const [visibleCountdown, setVisibleCountdown] = useState(false);
+  const { entryAnimationType, setShouldAnimate, setEntryAnimationType } =
+    useAnimationStore();
+  const [visibleCountdown, setVisibleCountdown] = useState(
+    status === "countdown",
+  );
 
   const { themeId, difficulty } = useLocalSearchParams<{
     themeId: string;
@@ -24,6 +28,7 @@ export function useGameViewModel() {
 
   const handleCountdownComplete = useCallback(() => {
     setVisibleCountdown(false);
+    setShouldAnimate(true);
 
     const totalAnimationTime = getEntryAnimationDuration(
       cards.length,
@@ -38,22 +43,40 @@ export function useGameViewModel() {
       .wait(300)
       .do(startGame)
       .run();
-  }, [previewAllCards, hideAllCards, startGame]);
+  }, [
+    previewAllCards,
+    hideAllCards,
+    startGame,
+    cards.length,
+    entryAnimationType,
+    setShouldAnimate,
+  ]);
 
   useEffect(() => {
-    initGame({
-      id: `${themeId}-${difficulty}`,
-      title: selectedTheme?.title || "",
-      cards: selectedTheme?.cards || [],
-      difficulty,
-      estimedTime: difficultyConfigs[difficulty].estimedTime,
-      timeLimitInSeconds: difficultyConfigs[difficulty].timeLimitInSeconds,
-    });
+    const theme = challengeTheme.find(({ id }) => id === themeId);
 
-    createSequence()
-      .wait(3)
-      .do(() => setVisibleCountdown(true))
-      .run();
+    if (theme && difficulty) {
+      setShouldAnimate(false);
+      const animationTypes: CardEntryAnimationType[] = ["deck", "throw"];
+      const randomAnimationType =
+        animationTypes[Math.floor(Math.random() * animationTypes.length)];
+
+      setEntryAnimationType(randomAnimationType);
+
+      initGame({
+        id: `${themeId}-${difficulty}`,
+        title: selectedTheme?.title || "",
+        cards: selectedTheme?.cards || [],
+        difficulty,
+        estimedTime: difficultyConfigs[difficulty].estimedTime,
+        timeLimitInSeconds: difficultyConfigs[difficulty].timeLimitInSeconds,
+      });
+
+      createSequence()
+        .wait(3)
+        .do(() => setVisibleCountdown(true))
+        .run();
+    }
   }, [initGame, themeId, difficulty, selectedTheme]);
 
   return {
