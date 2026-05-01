@@ -32,6 +32,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
     const newState = GameService.startGame(currentState);
 
     set(newState);
+    get().startTimer();
   },
 
   finishGame: () => {
