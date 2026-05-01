@@ -9,8 +9,16 @@ import { useGameHeaderViewModel } from "./useGameHeader.viewModel";
 
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
-export function GameHeaderView() {
-  const { timeString, isCriticalTime } = useGameHeaderViewModel();
+interface GameHeaderViewProps {
+  onGoBack: () => void;
+}
+
+export function GameHeaderView({ onGoBack }: Readonly<GameHeaderViewProps>) {
+  const {
+    timeString,
+    isCriticalTime,
+    animatedStyle: countdownAnimatedStyle,
+  } = useGameHeaderViewModel();
   const { animatedStyle, onPressIn, onPressOut } = usePressAnimation({
     scaleActive: 0.95,
     width: 40,
@@ -20,14 +28,14 @@ export function GameHeaderView() {
     <View style={styles.container}>
       <AnimatedPressable
         style={[styles.backButton, animatedStyle]}
-        onPress={() => {}}
+        onPress={onGoBack}
         onPressIn={onPressIn}
         onPressOut={onPressOut}
       >
         <ArrowLeft size={20} color={colors.grayscale.gray100} />
       </AnimatedPressable>
 
-      <Animated.View style={styles.countdown}>
+      <Animated.View style={[styles.countdown, countdownAnimatedStyle]}>
         <Clock4
           size={16}
           color={isCriticalTime ? colors.feedback.danger : colors.feedback.info}

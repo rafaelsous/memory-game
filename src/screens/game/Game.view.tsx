@@ -11,11 +11,12 @@ import { useGameViewModel } from "./useGame.viewModel";
 export function GameView({
   selectedTheme,
   visibleCountdown,
+  handleGoBack,
   handleCountdownComplete,
 }: Readonly<ReturnType<typeof useGameViewModel>>) {
   return (
     <SafeAreaView style={styles.container}>
-      <GameHeaderView />
+      <GameHeaderView onGoBack={handleGoBack} />
 
       <View style={styles.header}>
         <AppText style={styles.title}>{selectedTheme?.title}</AppText>

@@ -1,4 +1,4 @@
-import { useLocalSearchParams } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import { useCallback, useEffect, useState } from "react";
 
 import { CardEntryAnimationType } from "@/animations/config/animation.config";
@@ -9,6 +9,10 @@ import { Difficulty } from "@/shared/interfaces/difficulty";
 import { useGameStore } from "@/shared/stores/game.store";
 import { challengeTheme } from "@/shared/utils/challenge";
 import { createSequence } from "@/shared/utils/sequence.util";
+
+function handleGoBack() {
+  router.back();
+}
 
 export function useGameViewModel() {
   const { initGame, previewAllCards, hideAllCards, startGame, status, cards } =
@@ -82,6 +86,7 @@ export function useGameViewModel() {
   return {
     selectedTheme,
     visibleCountdown,
+    handleGoBack,
     handleCountdownComplete,
   };
 }
