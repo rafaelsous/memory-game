@@ -5,6 +5,7 @@ import { colors } from "@/constants/colors";
 import { AppText } from "@/shared/components/AppText";
 import { CardGrid } from "./components/CardGrid";
 import { CountDownOverlay } from "./components/CountDownOverlay";
+import { GameHeaderView } from "./components/GameHeader/GameHeader.view";
 import { useGameViewModel } from "./useGame.viewModel";
 
 export function GameView({
@@ -14,14 +15,16 @@ export function GameView({
 }: Readonly<ReturnType<typeof useGameViewModel>>) {
   return (
     <SafeAreaView style={styles.container}>
+      <GameHeaderView />
+
       <View style={styles.header}>
         <AppText style={styles.title}>{selectedTheme?.title}</AppText>
         <AppText style={styles.subtitle}>
           Encontre todos os pares dentro do tempo!
         </AppText>
-
-        <CardGrid />
       </View>
+
+      <CardGrid />
 
       <CountDownOverlay
         visibleCountDown={visibleCountdown}
@@ -35,7 +38,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 24,
-    paddingTop: 32,
+    gap: 32,
     backgroundColor: colors.grayscale.gray700,
   },
   header: {
