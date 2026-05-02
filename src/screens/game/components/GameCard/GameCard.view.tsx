@@ -2,6 +2,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import { Image, Pressable, StyleSheet } from "react-native";
 import Animated from "react-native-reanimated";
 
+import { useCardSelectionAnimation } from "@/animations/hooks/useCardSelectionAnimation";
 import { colors, gradients } from "@/constants/colors";
 import { AppText } from "@/shared/components/AppText";
 import { useGameCardViewModel } from "./useGameCard.viewModel";
@@ -13,9 +14,26 @@ export function GameCardView({
   backAnimatedStyle,
   frontAnimatedStyle,
 }: Readonly<ReturnType<typeof useGameCardViewModel>>) {
+  const {
+    animatedStyle: selectionAnimatedStyle,
+    onPressIn,
+    onPressOut,
+  } = useCardSelectionAnimation();
+
   return (
-    <Animated.View style={[styles.containerWrapper, entry.animatedStyle]}>
-      <Pressable style={styles.container} onPress={() => selectCard(card.id)}>
+    <Animated.View
+      style={[
+        styles.containerWrapper,
+        entry.animatedStyle,
+        selectionAnimatedStyle,
+      ]}
+    >
+      <Pressable
+        style={styles.container}
+        onPress={() => selectCard(card.id)}
+        onPressIn={onPressIn}
+        onPressOut={onPressOut}
+      >
         <Animated.View style={styles.innerContainer}>
           <Animated.View style={[styles.cardFace, frontAnimatedStyle]}>
             <LinearGradient
@@ -54,8 +72,6 @@ const styles = StyleSheet.create({
     height: 130,
     marginBottom: 8,
     borderWidth: 1,
-    borderColor: colors.grayscale.gray400,
-    borderRadius: 16,
   },
   container: {
     flex: 1,
@@ -67,6 +83,8 @@ const styles = StyleSheet.create({
     position: "absolute",
     width: "100%",
     height: "100%",
+    borderColor: colors.grayscale.gray400,
+    borderRadius: 16,
     backfaceVisibility: "hidden",
   },
   cardGradient: {
