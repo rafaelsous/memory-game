@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import {
   interpolate,
   useAnimatedStyle,
@@ -7,6 +7,7 @@ import {
 } from "react-native-reanimated";
 
 import { useCardEntryAnimation } from "@/animations/hooks/useCardEntryAnimation";
+import { useCardShakeAnimation } from "@/animations/hooks/useCardShakeAnimation";
 import { StoreCard } from "@/shared/interfaces/challenge";
 import { useGameStore } from "@/shared/stores/game.store";
 
@@ -23,9 +24,14 @@ export function useGameCardViewModel({
 
   const { selectCard } = useGameStore();
 
+  const previousFlippedRef = useRef(card.isFlipped);
+
   const entry = useCardEntryAnimation({
     cardIndex: index,
   });
+
+  const { animatedStyle: shakeCardAnimatedStyle, onShake } =
+    useCardShakeAnimation();
 
   const frontAnimatedStyle = useAnimatedStyle(() => ({
     transform: [
@@ -49,11 +55,20 @@ export function useGameCardViewModel({
     rotation.value = withSpring(card.isFlipped ? 180 : 0, { duration: 300 });
   }, [card.isFlipped, rotation]);
 
+  useEffect(() => {
+    if (card.isFlipped === false && previousFlippedRef.current === true) {
+      onShake();
+    }
+
+    previousFlippedRef.current = card.isFlipped;
+  }, [card.isFlipped, onShake, previousFlippedRef]);
+
   return {
     card,
     entry,
     selectCard,
     backAnimatedStyle,
     frontAnimatedStyle,
+    shakeCardAnimatedStyle,
   };
 }
