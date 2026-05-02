@@ -78,7 +78,7 @@ export const difficultyConfigs: Record<Difficulty, DifficultyConfig> = {
   },
   Difícil: {
     difficulty: "Difícil",
-    timeLimitInSeconds: 30,
+    timeLimitInSeconds: 10,
     estimedTime: "3 minutos",
   },
 };

@@ -9,6 +9,7 @@ import {
 import { useCardEntryAnimation } from "@/animations/hooks/useCardEntryAnimation";
 import { useCardShakeAnimation } from "@/animations/hooks/useCardShakeAnimation";
 import { useCardSuccessAnimation } from "@/animations/hooks/useCardSuccessAnimation";
+import { useCardTimeoutAnimation } from "@/animations/hooks/useCardTimeoutAnimation";
 import { StoreCard } from "@/shared/interfaces/challenge";
 import { useGameStore } from "@/shared/stores/game.store";
 
@@ -23,7 +24,7 @@ export function useGameCardViewModel({
 }: Readonly<GameCardViewModelProps>) {
   const rotation = useSharedValue(card.isFlipped ? 180 : 0);
 
-  const { selectCard } = useGameStore();
+  const { selectCard, status } = useGameStore();
 
   const previousFlippedRef = useRef(card.isFlipped);
 
@@ -39,6 +40,9 @@ export function useGameCardViewModel({
     playSuccess,
     fadeOut,
   } = useCardSuccessAnimation();
+
+  const { animatedStyle: timeoutCardAnimatedStyle, onFall } =
+    useCardTimeoutAnimation();
 
   const frontAnimatedStyle = useAnimatedStyle(() => ({
     transform: [
@@ -80,6 +84,13 @@ export function useGameCardViewModel({
     }
   }, [card.isMatched, playSuccess, fadeOut]);
 
+  useEffect(() => {
+    if (status === "timeout" && !card.isMatched) {
+      const randomDelay = Math.floor(Math.random() * 200);
+      onFall(randomDelay);
+    }
+  }, [status, card.isMatched]);
+
   return {
     card,
     entry,
@@ -88,5 +99,6 @@ export function useGameCardViewModel({
     frontAnimatedStyle,
     shakeCardAnimatedStyle,
     successCardAnimatedStyle,
+    timeoutCardAnimatedStyle,
   };
 }

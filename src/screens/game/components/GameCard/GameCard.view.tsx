@@ -15,6 +15,7 @@ export function GameCardView({
   frontAnimatedStyle,
   shakeCardAnimatedStyle,
   successCardAnimatedStyle,
+  timeoutCardAnimatedStyle,
 }: Readonly<ReturnType<typeof useGameCardViewModel>>) {
   const {
     animatedStyle: selectionAnimatedStyle,
@@ -30,6 +31,7 @@ export function GameCardView({
         selectionAnimatedStyle,
         shakeCardAnimatedStyle,
         successCardAnimatedStyle,
+        timeoutCardAnimatedStyle,
       ]}
     >
       <Pressable
