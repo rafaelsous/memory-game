@@ -97,8 +97,8 @@ export function useCardEntryAnimation({
     transform: [
       { translateX: translateX.value },
       { translateY: translateY.value },
-      { rotate: `${rotation.value}deg` },
       { scale: scale.value },
+      { rotate: `${rotation.value}deg` },
     ],
     opacity: opacity.value,
   }));

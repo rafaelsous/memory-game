@@ -1,4 +1,3 @@
-import { useCallback } from "react";
 import {
   useAnimatedStyle,
   useSharedValue,
@@ -9,8 +8,9 @@ import {
 
 export const useCardShakeAnimation = () => {
   const translateX = useSharedValue(0);
+  const rotation = useSharedValue(0);
 
-  const onShake = useCallback(() => {
+  const onShake = () => {
     translateX.value = withSequence(
       withTiming(10, { duration: 50 }),
       withRepeat(
@@ -23,10 +23,26 @@ export const useCardShakeAnimation = () => {
       ),
       withTiming(0, { duration: 50 }),
     );
-  }, [translateX]);
+
+    rotation.value = withSequence(
+      withTiming(5, { duration: 50 }),
+      withRepeat(
+        withSequence(
+          withTiming(-5, { duration: 50 }),
+          withTiming(5, { duration: 50 }),
+        ),
+        3,
+        false,
+      ),
+      withTiming(0, { duration: 50 }),
+    );
+  };
 
   const animatedStyle = useAnimatedStyle(() => ({
-    transform: [{ translateX: translateX.value }],
+    transform: [
+      { translateX: translateX.value },
+      { rotate: `${rotation.value}deg` },
+    ],
   }));
 
   return {
