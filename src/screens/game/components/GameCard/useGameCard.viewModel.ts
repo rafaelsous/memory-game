@@ -8,6 +8,7 @@ import {
 
 import { useCardEntryAnimation } from "@/animations/hooks/useCardEntryAnimation";
 import { useCardShakeAnimation } from "@/animations/hooks/useCardShakeAnimation";
+import { useCardSuccessAnimation } from "@/animations/hooks/useCardSuccessAnimation";
 import { StoreCard } from "@/shared/interfaces/challenge";
 import { useGameStore } from "@/shared/stores/game.store";
 
@@ -32,6 +33,12 @@ export function useGameCardViewModel({
 
   const { animatedStyle: shakeCardAnimatedStyle, onShake } =
     useCardShakeAnimation();
+
+  const {
+    animatedStyle: successCardAnimatedStyle,
+    playSuccess,
+    fadeOut,
+  } = useCardSuccessAnimation();
 
   const frontAnimatedStyle = useAnimatedStyle(() => ({
     transform: [
@@ -63,6 +70,16 @@ export function useGameCardViewModel({
     previousFlippedRef.current = card.isFlipped;
   }, [card.isFlipped, onShake, previousFlippedRef]);
 
+  useEffect(() => {
+    if (card.isMatched) {
+      playSuccess();
+
+      setTimeout(() => {
+        fadeOut();
+      }, 600);
+    }
+  }, [card.isMatched, playSuccess, fadeOut]);
+
   return {
     card,
     entry,
@@ -70,5 +87,6 @@ export function useGameCardViewModel({
     backAnimatedStyle,
     frontAnimatedStyle,
     shakeCardAnimatedStyle,
+    successCardAnimatedStyle,
   };
 }
